@@ -25,6 +25,11 @@ Ingress based on Traefik:v2.2 and Docker Swarm
     34        httpChallenge:
     35          entryPoint: web
     ```
+    or you can run following commands without the edit manually:  
+    ```shell script
+    $> export MY_EMAIL=yourValidEmail@example.com 
+    $> sed 's/your_email_here@example.com/'"$MY_EMAIL"'/g' -i traefik/traefik.yml
+    ```
 
 4. Change rights on `traefik/acme.json`:
     ```shell script
