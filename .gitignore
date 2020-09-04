@@ -1,0 +1,10 @@
+*.log
+*.swp
+
+.DS_Store
+.AppleDouble
+
+.idea
+
+traefik/traefik.yml
+traefik/acme.json

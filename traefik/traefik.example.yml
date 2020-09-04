@@ -1,0 +1,35 @@
+---
+api:
+  insecure: true
+
+log:
+  level: DEBUG
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: web-secure
+          scheme: https
+  web-secure:
+    address: ":443"
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    swarmMode: true
+    watch: true
+  file:
+    directory: "/etc/traefik/traefik.conf.d/"
+    watch: true
+
+certificatesResolvers:
+  myResolver:
+    acme:
+      email: "your_email_here@example.com"
+      storage: "/etc/traefik/acme.json"
+      httpChallenge:
+        entryPoint: web

@@ -1,0 +1,32 @@
+---
+version: '3.7'
+
+networks:
+  ingress-net:
+    name: ingress_net
+    driver: overlay
+    attachable: true
+
+services:
+  traefik:
+    image: traefik:v2.2
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      - ingress-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/acme.json:/etc/traefik/acme.json
+      - ./traefik/traefik.conf.d:/etc/traefik/traefik.conf.d
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=false
