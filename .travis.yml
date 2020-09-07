@@ -13,4 +13,4 @@ before_script:
 script:
   - ./ingress-up.sh ${USER_EMAIL}
   - ./wait-for-it.sh ${INGRESS_HOST}:${INGRESS_PORT} --timeout=15 --strict --
-    curl -s -o /dev/null -w "%{http_code}" localhost:8080/ping
+    curl -f -s -I "${INGRESS_HOST}:${INGRESS_PORT}/ping" &>/dev/null && true || false
