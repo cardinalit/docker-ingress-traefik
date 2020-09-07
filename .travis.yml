@@ -3,8 +3,7 @@ services:
   - docker
 
 env:
-  - INGRESS_HOST=localhost
-  - INGRESS_PORT=8080
+  - INGRESS_HOST=localhost INGRESS_PORT=8080
 
 before_script:
   - export STACK_NAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 9 | head -n 1)
