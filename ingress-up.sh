@@ -20,8 +20,6 @@ ingressConfigure() {
 
     cp traefik/acme.example.json "$INGRESS_FILE_ACME"
     chmod 0600 "$INGRESS_FILE_ACME"
-
-    echo "Success!"
   else
     echo "$INGRESS_FILE_ACME exists. Skip"
   fi
@@ -31,8 +29,6 @@ ingressConfigure() {
 
     cp traefik/traefik.example.yml "$INGRESS_FILE_CONF"
     sed 's/your_email_here@example.com/'"$email"'/g' -i "$INGRESS_FILE_CONF"
-
-    echo "Success!"
   else
     echo "$INGRESS_FILE_CONF exists. Skip"
   fi
