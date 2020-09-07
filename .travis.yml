@@ -13,4 +13,4 @@ before_script:
 script:
   - ./ingress-up.sh ${USER_EMAIL}
   - ./wait-for-it.sh ${INGRESS_HOST}:${INGRESS_PORT} --timeout=15 --strict --
-    curl -f -s -I "${INGRESS_HOST}:${INGRESS_PORT}/ping" &>/dev/null && true || false
+    curl -f -s -I "${INGRESS_HOST}:${INGRESS_PORT}/4040404" &>/dev/null && true || false
