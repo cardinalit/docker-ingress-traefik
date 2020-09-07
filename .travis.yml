@@ -8,10 +8,10 @@ env:
 
 before_script:
   - export STACK_NAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 9 | head -n 1)
-  - export USER_EMAIL=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+  - export USER_EMAIL=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)@example.com
   - docker swarm init
 
 script:
   - ./ingress-up.sh ${USER_EMAIL}
-  - ./wait-for-it.sh ${INGRESS_HOST}:${INGRESS_PORT} --timeout=15 --strict --
+  - ./wait-for-it.sh $${INGRESS_HOST}:$${INGRESS_PORT} --timeout=15 --strict --
     curl -s -o /dev/null -w "%{http_code}" localhost:8080/ping
