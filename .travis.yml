@@ -3,7 +3,9 @@ services:
   - docker
 
 before_script:
+  - export STACK_NAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 9 | head -n 1)
   - docker swarm init
 
 script:
   - ./ingress-up.sh test@example.com
+  - docker stack ps $STACK_NAME -f desired-state=running
