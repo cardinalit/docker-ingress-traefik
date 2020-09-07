@@ -5,6 +5,8 @@ api:
 log:
   level: DEBUG
 
+ping: {}
+
 entryPoints:
   web:
     address: ":80"
