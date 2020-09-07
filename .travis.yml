@@ -2,10 +2,16 @@
 services:
   - docker
 
+env:
+  - INGRESS_HOST=localhost
+  - INGRESS_PORT=8080
+
 before_script:
   - export STACK_NAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 9 | head -n 1)
+  - export USER_EMAIL=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
   - docker swarm init
 
 script:
-  - ./ingress-up.sh test@example.com
-  - ./wait-for-it.sh localhost:8080 --timeout=360 --strict -- curl -v localhost:8080/ping
+  - ./ingress-up.sh ${USER_EMAIL}
+  - ./wait-for-it.sh ${INGRESS_HOST}:${INGRESS_PORT} --timeout=15 --strict --
+    curl -s -o /dev/null -w "%{http_code}" localhost:8080/ping
