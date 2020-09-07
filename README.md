@@ -1,4 +1,7 @@
 # docker-ingress
+
+[![Build Status](https://travis-ci.com/cardinalit/docker-ingress.svg?branch=master)](https://travis-ci.com/cardinalit/docker-ingress)
+
 Ingress based on Traefik:v2.2 and Docker Swarm with support TLS1.2 and TLS1.3 only.
 
 # How to use it?
