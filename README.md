@@ -8,14 +8,21 @@ Ingress based on Traefik:v2.2 and Docker Swarm with support TLS1.2 and TLS1.3 on
     $> git clone https://github.com/cardinalit/docker-ingress.git
     $> cd docker-ingress/
     ```
+   
+2. You can just run the command:
+    ```shell script
+    $> ./ingress-up.sh your_email@example.ru
+    ```
+   
+    or run commands bellow manually:
 
-2. Copy example files without postfix _example_:
+    2.1. Copy example files without postfix _example_:
     ```shell script
     $> cp traefik/acme.example.json traefik/acme.json
     $> cp traefik/traefik.example.yml traefik/traefik.yml
     ```
    
-3. Replace email setting in `traefik/traefik.yml:32` on your valid email address:
+    2.2. Replace email setting in `traefik/traefik.yml:32` on your valid email address:
     ```yml
     29  certificatesResolvers:
     30    myResolver:
@@ -31,12 +38,12 @@ Ingress based on Traefik:v2.2 and Docker Swarm with support TLS1.2 and TLS1.3 on
     $> sed 's/your_email_here@example.com/'"$MY_EMAIL"'/g' -i traefik/traefik.yml
     ```
 
-4. Change rights on `traefik/acme.json`:
+    2.3. Change rights on `traefik/acme.json`:
     ```shell script
     $> chmod 0600 traefik/acme.json
     ```
    
-5. Run stack:
+    2.4. Run stack:
     ```shell script
     $> docker stack up -c docker-ingress.yml ingress
     ```
