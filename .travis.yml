@@ -1,0 +1,9 @@
+---
+services:
+  - docker
+
+before_script:
+  - docker swarm init
+
+script:
+  - ./ingress-up.sh test@example.com
