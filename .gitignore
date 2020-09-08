@@ -1,6 +1,8 @@
 *.log
 *.swp
 
+*.override.*
+
 .DS_Store
 .AppleDouble
 
