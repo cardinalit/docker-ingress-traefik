@@ -43,7 +43,7 @@ createConfigIfNotExists() {
         if [[ ! -f "$1" ]]; then
           echo " + $1 doesn't exist. Create"
           cp "traefik/${INGRESS_file[0]}.example.${INGRESS_file[1]}" "${INGRESS_FILE_CONF}"
-          sed 's/your_email_here@example.com/'"$2"'/g' -i "${INGRESS_FILE_CONF}"
+          sed 's/your_email_here@example.com/'"$email"'/g' -i "${INGRESS_FILE_CONF}"
         else
           echo " • $1 exists. Skip"
         fi
