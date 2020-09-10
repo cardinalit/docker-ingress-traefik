@@ -67,7 +67,7 @@ ingressUp() {
 
 main() {
   ingressConfigure "$1"
-  #ingressUp
+  ingressUp
 }
 
 main "$@"
