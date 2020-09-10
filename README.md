@@ -23,6 +23,7 @@ Ingress based on Traefik:v2.2 and Docker Swarm with support TLS1.2 and TLS1.3 on
     ```shell script
     $> cp traefik/acme.example.json traefik/acme.json
     $> cp traefik/traefik.example.yml traefik/traefik.yml
+    $> cp traefik/docker-compose.example.yml docker-compose.yml
     ```
    
     2.2. Replace email setting in `traefik/traefik.yml:32` on your valid email address:
@@ -48,7 +49,7 @@ Ingress based on Traefik:v2.2 and Docker Swarm with support TLS1.2 and TLS1.3 on
    
     2.4. Run stack:
     ```shell script
-    $> docker stack up -c docker-ingress.yml ingress
+    $> docker stack up -c docker-compose.yml ingress
     ```
    
 6. After success running stack, you could see Traefik dashboard on `http://${IP}:8080`.

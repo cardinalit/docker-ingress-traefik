@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-INGRESS_FILE_ACME="${TRAEFIK_ACME:-./traefik/acme.json}"
-INGRESS_FILE_CONF="${TRAEFIK_CONF:-./traefik/traefik.yml}"
+INGRESS_FILE_YML="${TRAEFIK_YML:-docker-compose.yml}"
+INGRESS_FILE_ACME="${TRAEFIK_ACME:-traefik/acme.json}"
+INGRESS_FILE_CONF="${TRAEFIK_CONF:-traefik/traefik.yml}"
 INGRESS_STACK_NAME="${STACK_NAME:-ingress}"
 
 if [ -z "$1" ]; then
@@ -10,35 +11,63 @@ if [ -z "$1" ]; then
   exit
 fi
 
+createConfigIfNotExists() {
+  local email=$1 && shift
+
+  while [[ $# -gt 0 ]]
+  do
+    INGRESS_file=(${1//./ })
+    INGRESS_file[0]=$(echo "${INGRESS_file[0]//// }" | awk '{ print $NF }')
+
+    case "${INGRESS_file[0]}" in
+      docker-compose)
+        if [[ ! -f "$1" ]]; then
+          echo " + $1 doesn't exist. Create"
+          cp "traefik/${INGRESS_file[0]}.example.${INGRESS_file[1]}" "${INGRESS_FILE_YML}"
+        else
+          echo " • $1 exists. Skip"
+        fi
+        shift
+        ;;
+      acme)
+        if [[ ! -f "$1" ]]; then
+          echo " + $1 doesn't exist. Create"
+          cp "traefik/${INGRESS_file[0]}.example.${INGRESS_file[1]}" "${INGRESS_FILE_ACME}"
+          chmod 0600 "${INGRESS_FILE_ACME}"
+        else
+          echo " • $1 exists. Skip"
+        fi
+        shift
+        ;;
+      traefik)
+        if [[ ! -f "$1" ]]; then
+          echo " + $1 doesn't exist. Create"
+          cp "traefik/${INGRESS_file[0]}.example.${INGRESS_file[1]}" "${INGRESS_FILE_CONF}"
+          sed 's/your_email_here@example.com/'"$2"'/g' -i "${INGRESS_FILE_CONF}"
+        else
+          echo " • $1 exists. Skip"
+        fi
+        shift
+        ;;
+    esac
+  done
+}
+
 ingressConfigure() {
   echo "Starting configure:"
 
-  local email=$1
-
-  if [ ! -f "$INGRESS_FILE_ACME" ]; then
-    echo "$INGRESS_FILE_ACME doesn't exist. Copy it and change the rights"
-
-    cp traefik/acme.example.json "$INGRESS_FILE_ACME"
-    chmod 0600 "$INGRESS_FILE_ACME"
-  else
-    echo "$INGRESS_FILE_ACME exists. Skip"
-  fi
-
-  if [ ! -f "$INGRESS_FILE_CONF" ]; then
-    echo "$INGRESS_FILE_CONF doesn't exist. Copy it and change email"
-
-    cp traefik/traefik.example.yml "$INGRESS_FILE_CONF"
-    sed 's/your_email_here@example.com/'"$email"'/g' -i "$INGRESS_FILE_CONF"
-  else
-    echo "$INGRESS_FILE_CONF exists. Skip"
-  fi
+  createConfigIfNotExists "$1" "${INGRESS_FILE_YML}" "${INGRESS_FILE_ACME}" "${INGRESS_FILE_CONF}"
 }
 
 ingressUp() {
   echo "Running $INGRESS_STACK_NAME stack"
 
-  docker stack up -c docker-ingress.yml "$INGRESS_STACK_NAME"
+  docker stack up -c docker-compose.yml "$INGRESS_STACK_NAME"
 }
 
-ingressConfigure "$1"
-ingressUp
+main() {
+  ingressConfigure "$1"
+  #ingressUp
+}
+
+main "$@"
