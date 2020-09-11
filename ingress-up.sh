@@ -11,7 +11,7 @@ if [ -z "$1" ]; then
   exit
 fi
 
-createConfigIfNotExists() {
+ingressCreateConfigIfNotExists() {
   local email=$1 && shift
 
   while [[ $# -gt 0 ]]
@@ -56,7 +56,7 @@ createConfigIfNotExists() {
 ingressConfigure() {
   echo "Starting configure:"
 
-  createConfigIfNotExists "$1" "${INGRESS_FILE_YML}" "${INGRESS_FILE_ACME}" "${INGRESS_FILE_CONF}"
+  ingressCreateConfigIfNotExists "$1" "${INGRESS_FILE_YML}" "${INGRESS_FILE_ACME}" "${INGRESS_FILE_CONF}"
 }
 
 ingressUp() {
