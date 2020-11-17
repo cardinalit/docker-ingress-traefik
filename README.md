@@ -9,7 +9,7 @@ Ingress based on Traefik:v2.2 and Docker Swarm with support TLS1.2 and TLS1.3 on
 1. Clone this repo to your location:
     ```shell script
     $> git clone https://github.com/cardinalit/docker-ingress-traefik.git
-    $> cd docker-ingress/
+    $> cd docker-ingress-traefik/
     ```
    
 2. You can just run the command:
