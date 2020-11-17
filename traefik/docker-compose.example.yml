@@ -25,6 +25,10 @@ services:
       - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./traefik/acme.json:/etc/traefik/acme.json
       - ./traefik/traefik.conf.d:/etc/traefik/traefik.conf.d
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "localhost:8080/ping"]
+      interval: 10s
+      timeout: 5s
     deploy:
       placement:
         constraints:
