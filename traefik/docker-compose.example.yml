@@ -36,5 +36,7 @@ services:
       restart_policy:
         condition: any
         delay: 5s
+      update_config:
+        order: start-first
       labels:
-        - traefik.enable=false
+        - "traefik.enable=false"
