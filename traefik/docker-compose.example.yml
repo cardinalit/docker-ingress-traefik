@@ -6,6 +6,10 @@ networks:
     name: ingress_net
     driver: overlay
     attachable: true
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.0.0/16"
 
 services:
   traefik:
