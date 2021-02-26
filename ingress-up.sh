@@ -2,6 +2,7 @@
 
 INGRESS_FILE_YML="${TRAEFIK_YML:-docker-compose.yml}"
 INGRESS_FILE_ACME="${TRAEFIK_ACME:-traefik/acme.json}"
+INGRESS_FILE_BASIC_AUTH="${TRAEFIK_BASIC_AUTH:-traefik/basic-auth.htpasswd}"
 INGRESS_FILE_CONF="${TRAEFIK_CONF:-traefik/traefik.yml}"
 INGRESS_STACK_NAME="${STACK_NAME:-ingress}"
 
@@ -39,6 +40,15 @@ ingressCreateConfigIfNotExists() {
         fi
         shift
         ;;
+      basic-auth)
+        if [[ ! -f "$1" ]]; then
+          echo " + $1 doesn't exist. Create"
+          cp "traefik/${INGRESS_file[0]}.example.${INGRESS_file[1]}" "${INGRESS_FILE_BASIC_AUTH}"
+        else
+          echo " • $1 exists. Skip"
+        fi
+        shift
+        ;;
       traefik)
         if [[ ! -f "$1" ]]; then
           echo " + $1 doesn't exist. Create"
@@ -56,7 +66,7 @@ ingressCreateConfigIfNotExists() {
 ingressConfigure() {
   echo "Starting configure:"
 
-  ingressCreateConfigIfNotExists "$1" "${INGRESS_FILE_YML}" "${INGRESS_FILE_ACME}" "${INGRESS_FILE_CONF}"
+  ingressCreateConfigIfNotExists "$1" "${INGRESS_FILE_YML}" "${INGRESS_FILE_ACME}" "${INGRESS_FILE_CONF}" "${INGRESS_FILE_BASIC_AUTH}"
 }
 
 ingressUp() {

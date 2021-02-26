@@ -10,3 +10,4 @@ docker-compose.yml
 
 traefik/traefik.yml
 traefik/acme.json
+traefik/basic-auth.htpasswd

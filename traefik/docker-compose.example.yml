@@ -2,7 +2,7 @@
 version: '3.7'
 
 networks:
-  ingress-net:
+  default:
     name: ingress_net
     driver: overlay
     attachable: true
@@ -13,22 +13,19 @@ networks:
 
 services:
   traefik:
-    image: traefik:v2.2
+    image: traefik:v2.4
     hostname: ingress-traefik
     ports:
       - target: 80
         published: 80
+        #mode: host
       - target: 443
         published: 443
+        #mode: host
       - "8080:8080"
-    networks:
-      - ingress-net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-      - ./traefik/acme.json:/etc/traefik/acme.json
-      - ./traefik/traefik.conf.d:/etc/traefik/traefik.conf.d
+      - ./traefik:/etc/traefik
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "localhost:8080/ping"]
       interval: 10s

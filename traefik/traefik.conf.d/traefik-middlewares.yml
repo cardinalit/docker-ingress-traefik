@@ -1,0 +1,6 @@
+---
+http:
+  middlewares:
+    http-basic-auth:
+      basicAuth:
+        usersFile: "/etc/traefik/basic-auth.htpasswd"
